@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -9,7 +10,11 @@ from resources.store import Store, StoreList
 # Un resource es como una clase modelo
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+# HEroku me tiene una variable de entorno llamada DATABASE_URL con la cadena de conexión a 
+# la base de datos. Así evito poner en el código postgres://...... 
+# con el get(cosa1, cosa2). Si cosa1 es undefined, se coge la cosa 2, así puedo ejecutar en local
+# usando una bd sqlite
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite://data.db')
 # Trackear modificaciones en objetos no guardadas. Desactivamos el de 
 # SQLAlchemy porque el de Flask-SQLAlchemy es mejor
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

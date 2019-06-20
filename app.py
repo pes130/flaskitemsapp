@@ -14,10 +14,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 # SQLAlchemy porque el de Flask-SQLAlchemy es mejor
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-#ueremos que alchemy nos cree las tablas
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 app.secret_key = 'pablo'
 # Nos permite asociar facilmente recursos a métodos.
@@ -44,6 +41,7 @@ api.add_resource(StoreList,'/stores')
 # Ojo con esto, que si importas este fichero, se ejecuta esto. Para evitarlo, línea siguiente
 #app.run(port=5000, debug=True)
 
+# Con uWSGI no pasas por aquí, así que no importas db
 if __name__ == '__main__':
     # Imports circulares, si importamos db al princpio, y en models también vas a crear una importación circular
     from db import db

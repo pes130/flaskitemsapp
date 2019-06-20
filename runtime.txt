@@ -1,2 +1,1 @@
-# Para decirle cosillas a Heroku
 python-3.6.7
